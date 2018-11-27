@@ -17,7 +17,7 @@ namespace ChatPaint
             lst = new List<Figure>();
             //CrRectangle.Enabled = false;
             //CrCircle.Enabled = false;
-            //Color.Enabled = false;
+            //Color.Enabled = false; 
             //Clear.Enabled = false;
         }
         Color cl;

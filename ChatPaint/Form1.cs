@@ -15,10 +15,6 @@ namespace ChatPaint
             InitializeComponent();
             g = panel1.CreateGraphics();
             lst = new List<Figure>();
-            //CrRectangle.Enabled = false;
-            //CrCircle.Enabled = false;
-            //Color.Enabled = false; 
-            //Clear.Enabled = false;
         }
         Color cl;
         List<Figure> lst;
@@ -59,6 +55,8 @@ namespace ChatPaint
                 figure.SetCol(cl);
                 figure.Draw(g);
                 lst.Add(figure);
+                //SendMessage(figure);
+                textBox1.Text = figure.ToString() + "#" + figure.X + "#" + figure.Y + "#" + figure.W + "#" + figure.H + "#" + figure.Color; ;
             }
         }
 
@@ -78,21 +76,7 @@ namespace ChatPaint
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text=="")
-            {
-                CrRectangle.Enabled = false;
-                CrCircle.Enabled = false;
-                Color.Enabled = false;
-                Clear.Enabled = false;
-            }
-            else
-            {
-                ConnectBtn.Enabled = false;
-                CrRectangle.Enabled = true;
-                CrCircle.Enabled = true;
-                Color.Enabled = true;
-                Clear.Enabled = true; 
-                userName = Console.ReadLine();
+                userName = textBox1.Text;
                 client = new TcpClient();
                 try
                 {
@@ -117,7 +101,7 @@ namespace ChatPaint
                 {
                     Disconnect();
                 }
-            }
+            
         }
         //send Message
         static void SendMessage()
@@ -131,6 +115,15 @@ namespace ChatPaint
                 stream.Write(data, 0, data.Length);
             }
         }
+        static void SendMessage(Figure f)
+        {
+            //Console.WriteLine("Введите сообщение: ");
+                string message = f.ToString()+"#"+f.X+ "#" + f.Y+"#" + f.W+ "#" + f.H+ "#" + f.Color;
+                byte[] data = Encoding.Unicode.GetBytes(message);
+                stream.Write(data, 0, data.Length);
+        }
+
+
         static void ReceiveMessage()//Give message
         {
             while (true)
@@ -148,7 +141,10 @@ namespace ChatPaint
                     while (stream.DataAvailable);
 
                     string message = builder.ToString();
-                    Console.WriteLine(message);//вывод сообщения
+                    for (int i = 0; i < length; i++)
+                    { 
+
+                    }
                 }
                 catch
                 {

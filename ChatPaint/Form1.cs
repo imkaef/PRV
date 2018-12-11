@@ -56,7 +56,7 @@ namespace ChatPaint
                 figure.Draw(g);
                 lst.Add(figure);
                 //SendMessage(figure);
-                textBox1.Text = figure.ToString() + "#" + figure.X + "#" + figure.Y + "#" + figure.W + "#" + figure.H + "#" + figure.Color; ;
+                textBox1.Text = figure.ToString() + "#" + figure.X + "#" + figure.Y + "#" + figure.W + "#" + figure.H + "#" + figure.Color;
             }
         }
 
@@ -118,13 +118,13 @@ namespace ChatPaint
         static void SendMessage(Figure f)
         {
             //Console.WriteLine("Введите сообщение: ");
-                string message = f.ToString()+"#"+f.X+ "#" + f.Y+"#" + f.W+ "#" + f.H+ "#" + f.Color;
+                string message = f.ToString()+"/"+f.X+ "/" + f.Y+"/#" + f.Color.R.ToString("X2") + f.Color.G.ToString("X2") + f.Color.B.ToString("X2");
                 byte[] data = Encoding.Unicode.GetBytes(message);
                 stream.Write(data, 0, data.Length);
         }
 
 
-        static void ReceiveMessage()//Give message
+        static Figure ReceiveMessage()//Give message
         {
             while (true)
             {
@@ -141,11 +141,27 @@ namespace ChatPaint
                     while (stream.DataAvailable);
 
                     string message = builder.ToString();
-                    for (int i = 0; i < length; i++)
-                    { 
-
+                    string[] words = message.Split(new char[] { '/' });
+                    Creator cr;
+                    if (words[0] == "Rectangle")
+                    {
+                       cr = new RectangleCreator();
                     }
-                }
+                    else
+                    {
+                        cr = new EllipseCreator();
+                    }
+                    Figure fig = cr.Create();
+                    fig.Move(Convert.ToInt32(words[1]), Convert.ToInt32(words[2]));
+                    byte a = 255; // or whatever...
+                    byte r = (byte)(Convert.ToUInt32(words[3].Substring(1, 2), 16));
+                    byte g = (byte)(Convert.ToUInt32(words[3].Substring(3, 2), 16));
+                    byte b = (byte)(Convert.ToUInt32(words[3].Substring(5, 2), 16));
+                    fig.SetCol(Color.c(a,r,b,g);
+                    fig.Draw(g);
+                    lst.Add(figure);
+
+                }
                 catch
                 {
                     Console.WriteLine("Подключение прервано!"); //соединение было прервано
@@ -189,6 +205,11 @@ class Figure
     public virtual void SetCol(Color cl)
     {
         color = cl;
+    }
+
+    public static implicit operator Figure(EllipseCreator v)
+    {
+        throw new NotImplementedException();
     }
 }
 abstract class Creator

@@ -59,7 +59,7 @@
             // 
             // ConnectBtn
             // 
-            this.ConnectBtn.Location = new System.Drawing.Point(411, 174);
+            this.ConnectBtn.Location = new System.Drawing.Point(405, 337);
             this.ConnectBtn.Name = "ConnectBtn";
             this.ConnectBtn.Size = new System.Drawing.Size(75, 23);
             this.ConnectBtn.TabIndex = 6;
@@ -79,8 +79,9 @@
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(252, 148);
+            this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(333, 20);
+            this.textBox1.Size = new System.Drawing.Size(333, 167);
             this.textBox1.TabIndex = 4;
             // 
             // Clear
